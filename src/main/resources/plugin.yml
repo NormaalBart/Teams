@@ -1,0 +1,4 @@
+name: Teams
+version: ${full.version}
+main: me.bartvv.teams.Teams
+author: Bart
