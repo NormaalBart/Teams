@@ -1,0 +1,10 @@
+scoreboard:
+  title: "&aTitle"
+  lines:
+    - "  "
+    - "&7Team: &a%player_team%"
+    - "    "
+    - "&7Team-Size: &a%player_team_size%"
+    - " "
+    - "&7Enemy-Size: &a%player_enemy_size%"
+    

@@ -1,4 +1,8 @@
 name: Teams
-version: ${full.version}
+version: 1.0.5
 main: me.bartvv.teams.Teams
 author: Bart
+commands:
+  autoteam:
+  team:
+    aliases: [teams]

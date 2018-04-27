@@ -4,29 +4,80 @@
 
 	<groupId>me.bartvv</groupId>
 	<artifactId>Teams</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>Teams</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>ANSI</project.build.sourceEncoding>
 	</properties>
 
 	<repositories>
+		<!-- Paperspigot Repo -->
 		<repository>
 			<id>destroystokyo-repo</id>
 			<url>https://repo.destroystokyo.com/repository/maven-snapshots/</url>
 		</repository>
+
+		<!-- Lombok -->
+		<repository>
+			<id>projectlombok.org</id>
+			<url>http://projectlombok.org/mavenrepo</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
+		<!-- Paperspigot 1.7.10 -->
 		<dependency>
 			<groupId>org.github.paperspigot</groupId>
 			<artifactId>paperspigot-api</artifactId>
 			<version>1.7.10-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.12</version>
+		</dependency>
 	</dependencies>
+
+	<build>
+		<finalName>Teams-${full.version}</finalName>
+		<defaultGoal>install</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+	</build>
 </project>
