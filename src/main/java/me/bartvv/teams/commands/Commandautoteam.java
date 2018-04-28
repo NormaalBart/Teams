@@ -53,22 +53,21 @@ public class Commandautoteam extends TeamCommand {
 		}
 
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			PlayerScoreboard pBoard = PlayerScoreboard.getScoreboard(player);
-			if (pBoard != null) {
-				pBoard.stop();
-			}
 			User target = teams.getUser(player.getName());
-			if(target == null) {
+			if (target == null) {
 				teams.getLogger().log(Level.WARNING, "User is null! Error...");
 				continue;
 			}
 			if (target.getTeam().getSpawnLoc() != null) {
 				try {
-				player.teleport(target.getTeam().getSpawnLoc());
-				}catch(Exception exc) {
-					teams.getLogger().log(Level.WARNING, "Failed to teleport " + player.getName() + " to team location!");
+					player.teleport(target.getTeam().getSpawnLoc());
+				} catch (Exception exc) {
+					teams.getLogger().log(Level.WARNING,
+							"Failed to teleport " + player.getName() + " to team location!");
 				}
 			}
+			Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),
+					"kit " + target.getTeam().getTeamName() + " " + player.getName());
 		}
 
 		user.sendMessage(tl("Teams-Sorted", toSort.size()));
@@ -76,6 +75,7 @@ public class Commandautoteam extends TeamCommand {
 		teams.getGlaedr().registerPlayers();
 
 		for (PlayerScoreboard board : PlayerScoreboard.getScoreboards()) {
+			board.clearLines();
 			for (String lines : teams.getScoreboard().getStringList("scoreboard.lines")) {
 				Wrapper wrapper = new Wrapper(lines, board, WrapperType.TOP);
 				wrapper.setText(lines);
