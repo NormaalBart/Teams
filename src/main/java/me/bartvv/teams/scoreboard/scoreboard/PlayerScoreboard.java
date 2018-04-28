@@ -1,11 +1,10 @@
 package me.bartvv.teams.scoreboard.scoreboard;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,6 +15,8 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+
+import com.google.common.collect.Maps;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +35,15 @@ public class PlayerScoreboard {
 
 	private static Teams teams = JavaPlugin.getPlugin(Teams.class);
 
-	private static Set<PlayerScoreboard> scoreboards = new HashSet<>();
+	private static Map<Player, PlayerScoreboard> scoreboards = Maps.newHashMap();
+	
+	public static PlayerScoreboard getScoreboard(Player player) {
+		return scoreboards.get(player);
+	}
+
+	public static Collection<PlayerScoreboard> getScoreboards() {
+		return scoreboards.values();
+	}
 
 	private Player player;
 	@Setter
@@ -71,8 +80,10 @@ public class PlayerScoreboard {
 		}
 
 		run();
-
-		scoreboards.add(this);
+		
+		if(!scoreboards.containsKey(player)) {
+			scoreboards.put(player, this);
+		}
 	}
 
 	public String getAssignedKey(Entry entry) {
@@ -165,19 +176,6 @@ public class PlayerScoreboard {
 			}
 		}
 		return null;
-	}
-
-	public static PlayerScoreboard getScoreboard(Player player) {
-		for (PlayerScoreboard playerScoreboard : getScoreboards()) {
-			if (playerScoreboard.getPlayer().getName().equals(player.getName())) {
-				return playerScoreboard;
-			}
-		}
-		return null;
-	}
-
-	public static Set<PlayerScoreboard> getScoreboards() {
-		return scoreboards;
 	}
 
 	private List<Wrapper> getTopWrappers() {
@@ -280,6 +278,13 @@ public class PlayerScoreboard {
 		if(task != null) {
 			Bukkit.getScheduler().cancelTask(task.getTaskId());
 		}
+	}
+
+	public void clearLines() {
+		keys.clear();
+		scores.clear();
+		entries.clear();
+		wrappers.clear();
 	}
 
 }
